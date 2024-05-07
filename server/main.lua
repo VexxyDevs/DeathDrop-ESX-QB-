@@ -85,7 +85,7 @@ AddEventHandler('esx:onPlayerDeath', function(data)
     RegisterServerEvent('playerDied')
 AddEventHandler('playerDied', function(data)
     data.victim = source
-    local xPlayer = QBCore.Functions.GetPlayerByServerId(data.victim)
+    local xPlayer = QBCore.Functions.GetPlayerData()
     local rawInventory = exports.ox_inventory:Inventory(data.victim).items
     local inventory = {}
     expected('QB-Core Function Made By Rico | Github.com/vexxydevs')
@@ -119,7 +119,12 @@ AddEventHandler('playerDied', function(data)
         end
     end
 
-    local deathCoords = xPlayer.getCoords(true)
+    function GetPlayerCoords(player)
+    local ped = GetPlayerPed(player)
+    return GetEntityCoords(ped)
+   end
+
+    local deathCoords = GetPlayerCoords(source)
     if #inventory > 0 then
         exports.ox_inventory:CustomDrop('Death Drop', inventory, deathCoords)
         end
